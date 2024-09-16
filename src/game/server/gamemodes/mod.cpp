@@ -26,15 +26,26 @@ void CGameControllerMOD::UpdateWeapons(CPlayer* pPlayer) {
 		WEAPON_RIFLE,
 		WEAPON_HAMMER,
 	};
+
+	int weaponAmmo[] = {
+		-1,
+		5,
+		5,
+		5,
+		-1
+	};
 	int weapon = 0;
-	if (score / 2 < sizeof(weaponOrder)/4)
+	int ammo = 0;
+	if (score / 2 < sizeof(weaponOrder) / 4) {
 		weapon = weaponOrder[score / 2];
+		ammo = weaponAmmo[score / 2];
+	}
 	else {
 		GameServer()->SendChat(-1, CGameContext::CHAT_ALL, "GG");
 		GameServer()->SendBroadcast((Server()->ClientName(pPlayer->GetCID()) + std::string(" won!")).c_str(), -1);
 		return;
 	}
-	pPlayer->GetCharacter()->GiveWeapon(weapon, -1);
+	pPlayer->GetCharacter()->GiveWeapon(weapon, ammo);
 	pPlayer->GetCharacter()->SetWeapon(weapon);
 }
 
